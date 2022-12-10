@@ -1,21 +1,20 @@
 package com.example.calculatorapp
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainActivityViewModel(startingTotal : Int):ViewModel() {
-    private var total = 0
+     var total = MutableLiveData<Int>()
     init {
-        total = startingTotal
-    }
-    fun getCount():Int{
-        return total
+        total.value = startingTotal
     }
 
+
     fun addition(input :Int){
-        total+=input
+        total.value=(total.value?.plus(input))
     }
     fun substraction(input :Int){
-        total-=input
+        total.value = (total.value)?.minus(input)
     }
 
 }

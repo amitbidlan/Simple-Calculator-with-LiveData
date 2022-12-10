@@ -3,6 +3,7 @@ package com.example.calculatorapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.calculatorapp.databinding.ActivityMainBinding
 
@@ -16,15 +17,19 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
         viewModelFactory = MainActivityViewModelFactory(0)
         viewModel = ViewModelProvider(this,viewModelFactory).get(MainActivityViewModel::class.java)
-        binding.tvOutput.text = viewModel.getCount().toString()
+        viewModel.total.observe(this, Observer {
+            binding.tvOutput.text = it.toString()
+        })
+        //binding.tvOutput.text = viewModel.getCount().toString()
         binding.btAdd.setOnClickListener {
             viewModel.addition(binding.tvInput.text.toString().toInt())
-            binding.tvOutput.text = viewModel.getCount().toString()
+
             binding.tvInput.text = null
         }
         binding.btSubstract.setOnClickListener {
             viewModel.substraction(binding.tvInput.text.toString().toInt())
-            binding.tvOutput.text = viewModel.getCount().toString()
+            binding.tvInput.text = null
+
         }
 
     }
